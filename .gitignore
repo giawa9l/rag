@@ -1,6 +1,26 @@
-chroma_db/
-uploads/
+# Python
 __pycache__/
-*.pyc
+*.py[cod]
+*.egg-info/
+dist/
+build/
+*.egg
+venv/
 .venv/
+
+# ChromaDB local data
+chroma_db/
+
+# Uploaded files
+uploads/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# macOS
+.DS_Store
+
+# Environment
 .env
