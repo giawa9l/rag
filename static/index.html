@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAG Document Manager</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: #1a1a2e; color: #e0e0e0;
+            min-height: 100vh; padding: 2rem;
+        }
+        h1 { color: #e94560; margin-bottom: 1.5rem; font-size: 1.8rem; }
+        h2 { color: #e94560; margin: 1.5rem 0 0.8rem; font-size: 1.2rem; }
+        .upload-zone {
+            border: 2px dashed #e94560; border-radius: 12px;
+            padding: 3rem; text-align: center; cursor: pointer;
+            transition: all 0.3s; background: #16213e;
+        }
+        .upload-zone:hover, .upload-zone.dragover {
+            background: #1a1a40; border-color: #ff6b6b;
+        }
+        .upload-zone p { font-size: 1.1rem; }
+        .upload-zone .hint { color: #888; font-size: 0.85rem; margin-top: 0.5rem; }
+        .upload-zone input { display: none; }
+        .status {
+            padding: 0.8rem; border-radius: 8px; margin: 1rem 0;
+            display: none; font-size: 0.9rem;
+        }
+        .status.success { display: block; background: #0f3d0f; color: #4caf50; }
+        .status.error { display: block; background: #3d0f0f; color: #f44336; }
+        .status.loading { display: block; background: #1a1a40; color: #ffc107; }
+        .doc-list { list-style: none; }
+        .doc-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0.8rem 1rem; margin: 0.5rem 0;
+            background: #16213e; border-radius: 8px;
+        }
+        .doc-item .info { flex: 1; }
+        .doc-item .name { font-weight: 600; }
+        .doc-item .meta { color: #888; font-size: 0.8rem; margin-left: 0.5rem; }
+        .doc-item button {
+            background: #e94560; color: white; border: none;
+            padding: 0.4rem 0.8rem; border-radius: 6px; cursor: pointer;
+        }
+        .doc-item button:hover { background: #ff6b6b; }
+        .search-box { display: flex; gap: 0.5rem; margin: 0.8rem 0; }
+        .search-box input {
+            flex: 1; padding: 0.6rem 1rem; border: 1px solid #333;
+            border-radius: 8px; background: #16213e; color: #e0e0e0; font-size: 1rem;
+        }
+        .search-box button {
+            padding: 0.6rem 1.2rem; background: #e94560; color: white;
+            border: none; border-radius: 8px; cursor: pointer; font-size: 1rem;
+        }
+        .search-box button:hover { background: #ff6b6b; }
+        .result-item {
+            background: #16213e; border-radius: 8px; padding: 1rem; margin: 0.5rem 0;
+        }
+        .result-item .source { color: #e94560; font-size: 0.8rem; font-weight: 600; }
+        .result-item .content { margin-top: 0.4rem; line-height: 1.5; white-space: pre-wrap; }
+        .result-item .score { color: #888; font-size: 0.8rem; margin-left: 0.5rem; }
+        .empty { color: #666; font-style: italic; padding: 1rem 0; }
+        @media (max-width: 600px) {
+            body { padding: 1rem; }
+            .upload-zone { padding: 2rem 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <h1>RAG Document Manager</h1>
+    <div class="upload-zone" id="uploadZone">
+        <p>拖放 PDF / 圖片 至此，或點擊選擇檔案</p>
+        <p class="hint">支援: PDF, JPG, PNG, WEBP</p>
+        <input type="file" id="fileInput" multiple accept=".pdf,.jpg,.jpeg,.png,.webp">
+    </div>
+    <div class="status" id="status"></div>
+    <h2>已索引文件</h2>
+    <ul class="doc-list" id="docList">
+        <li class="empty">載入中...</li>
+    </ul>
+    <h2>搜索測試</h2>
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="輸入搜索內容..." />
+        <button id="searchBtn">搜索</button>
+    </div>
+    <div id="searchResults"></div>
+    <script src="/static/app.js"></script>
+</body>
+</html>
